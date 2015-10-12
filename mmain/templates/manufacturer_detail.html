@@ -1,0 +1,21 @@
+<head>
+    <title>{{manufacturer}} Details</title>
+</head>
+
+<h1>{{manufacturer}} Details</h1>
+
+{% for cereal in manufacturer.cereal_set.all %}
+    <a href="{% url 'cereal_detail' cereal.pk %}">{{cereal}}</a><br>
+    
+{% endfor %}
+<br>
+
+
+{% if request.user.is_authenticated %}
+    <p><a href="{% url 'update_manufacturer' manufacturer.pk %}">Update this manufacturer</a></p>
+    <br>
+    <p><a href="{% url 'manufacturer_delete' manufacturer.pk %}">Delete this manufacturer!</a></p>
+{% endif %}
+
+<br>
+<p><a href="{% url 'manufacturer_list' %}">Back to list</a></p>

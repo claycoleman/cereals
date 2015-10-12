@@ -1,0 +1,26 @@
+<head>
+    <title>Manufacturers List</title>
+</head>
+
+<h1>Manufacturers List</h1>
+
+<h2><a href="{% url "cereal_list" %}">To cereal list</a></h2>
+
+{% if request.user.is_authenticated %}
+    <h2><a href="{% url 'create_manufacturer' %}">Create new manufacturer!</a></h2>
+    
+{% endif %}
+
+<form action='{% url 'manufacturer_list' %}'>
+    {{form.as_p}}
+
+    <input type="submit" value="Search!">
+</form>
+
+
+<pre>
+    {{results}}
+    {% for manufacturer in manufacturers %}
+        <a href="{% url 'manufacturer_detail' manufacturer.pk %}">{{manufacturer}}</a>
+    {% endfor %}
+</pre>

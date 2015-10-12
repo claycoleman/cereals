@@ -1,0 +1,28 @@
+<head>
+    <title>{{cereal}} Details</title>
+</head>
+
+<h1>{{cereal}} Details</h1>
+{% if auth %}
+    <h2><a href="/create_cereal/{{cereal.pk}}/">Update cereal...</a>
+{% endif %}
+
+
+<h3>{{cereal}} is made by <a href="/manufacturer_detail/{{cereal.manufacturer.pk}}">{{cereal.manufacturer}}</a>.</h3>
+{% if cereal.cereal_type == 'C' %}
+    <h3>You eat this cereal with milk.</h3> 
+{% else %}
+    <h3>You should heat this cereal up!</h3>
+{% endif %}
+<h3>Per serving, this cereal has {{cereal.calories}} calories.</h3>
+<h3>It also contains {{cereal.fat}} grams of fat, and {{cereal.protein}} grams of protein.</h3>
+<h3>It contains {{cereal.dietary_fiber}} grams of fiber, and {{cereal.carbs}} grams of carbs.</h3>
+<h3>You should eat {{cereal.cups_per_serving}} cups for one serving, and the Serving Size Weight is {{cereal.serving_size_weight}}.</h3>
+
+{% if auth %}
+    <a href="/cereal_delete/{{cereal.pk}}">Delete this cereal</a><br>
+
+{% endif %}
+
+<a href="{% url "cereal_list" %}">Back to list!</a>
+

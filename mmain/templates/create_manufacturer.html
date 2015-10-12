@@ -1,0 +1,34 @@
+<head>
+    <title>Create Manufacturer</title>
+</head>
+
+{% if manufacturer == None %}
+    <h1>Create a new manufacturer!</h1>
+{% else %}
+    <h1>Update {{manufacturer}}!</h1>
+{% endif %}
+
+<form action="{% url 'create_manufacturer' %}" method="POST">
+    {% csrf_token %}
+    Manufacturer name:
+    <input type="text" name='name' id='name' value='{{manufacturer.name}}'><br>
+    Cereals:<br>
+    {% for cereal in manufacturer.cereal_set.all %}
+         <input type="checkbox" name='cereals' value='{{cereal.pk}}' checked>{{cereal}}
+        <br>
+    {% endfor %}
+    {% for cereal in cereals %}
+        <input type="checkbox" name='cereals' value='{{cereal.pk}}'>{{cereal}}
+        <br>
+    {% endfor %}
+
+
+    <input type="submit" value="Save!">
+</form>
+
+
+{% if manufacturer == None %}
+    <a href="{% url 'manufacturer_list' %}">Back to the manufacturer list</a>
+{% else %}
+    <a href="{% url 'manufacturer_detail' manufacturer.pk %}">Back to {{manufacturer}} details</a>
+{% endif %}

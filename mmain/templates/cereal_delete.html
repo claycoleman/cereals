@@ -1,0 +1,17 @@
+<head>
+    <title>Delete {{cereal}}</title>
+</head>
+
+<h1>Are you sure you want to delete?!</h1>
+
+<h2>It might not be the tastiest, but {{cereal}} is still okay man...</h2>
+
+<h3> if you're sure you want to delete, hit 'confirm' below. Or, back out to the detail view!</h3> <br>
+    <form action="/cereal_delete/{{cereal.pk}}/" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Confirm">
+    </form>
+
+    
+
+<a href="{% url 'cereal_detail' cereal.pk %}">Back to {{cereal}} details</a>

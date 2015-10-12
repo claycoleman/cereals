@@ -1,0 +1,38 @@
+<head>
+    <title>Cereal List</title>
+</head>
+
+<h1>Cereal List</h1>
+<h2><a href="/manufacturer_list/">To manufacturer list</a></h2>
+<br>
+{% if request.user.is_authenticated %}
+    <strong>User logged in:</strong> {{request.user}}<br>
+    <a href="/logout/">Log out?</a>
+    <br>
+    <br>
+    <a href="/create_cereal/">Create a new cereal!</a>
+
+{% else %}
+    Please <a href="/login/">log in</a> to edit the cereal files!
+{% endif %}
+
+<form action="{% url 'cereal_list' %}" method="GET">
+
+        {{ form.as_p }}
+
+        <input type="submit" value="Search!">  
+    </form>
+
+<br>
+<pre>
+    {% if length != 0 %}
+        {% for cereal in cereals %}
+        <a href="/cereal_detail/{{cereal.pk}}/">{{cereal}}</a>, from {{cereal.manufacturer}}!
+        
+        {% endfor %}
+    {% else %}
+        No results found!
+    {% endif %}
+    
+
+</pre>

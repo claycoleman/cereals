@@ -1,0 +1,14 @@
+{% load staticfiles %}
+<!DOCTYPE html>  
+<html>  
+<head>  
+    <title>{% block title %}{% endblock %}</title>
+    <script src="{% static "js/jquery-1.11.3.min.js" %}"></script>  
+    <script src="{% static "js/bootstrap.min.js" %}"></script>  
+</head>  
+<!-- we are in cereal_list.html -->  
+    <body>
+        {% block body %}
+        {% endblock %}
+    </body>
+</html>  

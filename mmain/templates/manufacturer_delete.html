@@ -1,0 +1,17 @@
+<head>
+    <title>Delete {{cereal}}</title>
+</head>
+
+<h1>Are you sure you want to delete?!</h1>
+
+<h2>You're right, {{manufacturer}} is kind of a corrupt company, but their cereal is still okay man...</h2>
+
+<h3> if you're sure you want to delete, hit 'confirm' below. Or, back out to the detail view!</h3> <br>
+    <form action="{% url 'manufacturer_delete' manufacturer.pk %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Confirm">
+    </form>
+
+    
+
+<a href="{% url 'manufacturer_detail' manufacturer.pk %}">Back to {{manufacturer}} details</a>

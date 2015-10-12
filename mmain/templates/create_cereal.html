@@ -1,0 +1,59 @@
+<head>
+    <title>Create Cereal</title>
+</head>
+{% if cereal == None %}
+    <h1>Create a new cereal!</h1>
+{% else %}
+    <h1>Update {{cereal}}!</h1>
+{% endif %}
+
+
+<form action="/create_cereal/" method="POST">
+    {% csrf_token %}
+    Cereal name:
+    <input type="text" name='name' id='name' value='{{cereal.name}}'><br>
+    Manufacturer: 
+    <select name='manufacturer' id='manufacturer' value='{{cereal.manufacturer}}'>
+        {% for manufacturer in manufacturers %}
+            <option value='{{manufacturer.pk}}'>{{manufacturer}}</option>
+        {% endfor %}
+    </select><br>
+    Cereal Type:
+    <select name="cereal_type" id="cereal_type" value='{{cereal.cereal_type}}'>
+        <option value="C">Cold cereal</option>
+        <option value="H">Hot cereal</option>
+    </select><br>
+    Calories:
+    <input type="float" name='calories' id='calories' value='{{cereal.calories}}'><br>
+    Protein:
+    <input type="float" name='protein' id='protein' value='{{cereal.protein}}'><br>
+    Fat: 
+    <input type="float" name='fat' id='fat' value='{{cereal.fat}}'><br>
+    Sodium:
+    <input type="float" name='sodium' id='sodium' value='{{cereal.sodium}}'><br>
+    Dietary Fiber:
+    <input type="float" name='dietary_fiber' id='dietary_fiber' value='{{cereal.dietary_fiber}}'><br>
+    Carbs:
+    <input type="float" name='carbs' id='carbs' value='{{cereal.carbs}}'><br>
+    Sugars:
+    <input type="float" name='sugars' id='sugars' value='{{cereal.sugars}}'><br>
+    Display Shelf:
+    <input type="float" name='display_shelf' id='display_shelf' value='{{cereal.display_shelf}}'><br>
+    Potassium:
+    <input type="float" name='potassium' id='potassium' value='{{cereal.potassium}}'><br>
+    Vitamins and Minerals:
+    <input type="float" name='vitamins_and_minerals' id='vitamins_and_minerals' value='{{cereal.vitamins_and_minerals}}'><br>
+    Serving Size Weight:
+    <input type="float" name='serving_size_weight' id='serving_size_weight' value='{{cereal.serving_size_weight}}'><br>
+    Cups per Serving:
+    <input type="float" name='cups_per_serving' id='cups_per_serving' value='{{cereal.cups_per_serving}}'><br>
+
+    <input type="submit" value="Save">
+</form>
+
+{% if cereal == None %}
+    <a href="{% url 'cereal_list' %}">Back to list</a>
+{% else %}
+    <a href="{% url 'cereal_detail' cereal.pk %}">Back to {{cereal}} details</a>
+{% endif %}
+
