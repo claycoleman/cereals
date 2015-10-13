@@ -1,15 +1,31 @@
 {% extends "base.html" %}
 
-{% block body %}
-    <form action="/login/" method="POST">
-        {% csrf_token %}
+{% block title %}
+    Log in
+{% endblock title %}
 
-        {{ form.as_p }}
+{% block body-main %}
+        <header class="special container">
+            <span class="icon fa-laptop"></span>
+            <h2>Please <strong>Log In</strong></h2>
+            <p>...if you know how, anyways...</p>
+        </header>
+    <section class="wrapper style4 container">
 
-        <input type="submit" value="Login!">  
-    </form>
-    </br>
-    Not yet signed up? <a href="/signup/">Sign up here!</a>
-    <br>
-    <a href="{% url 'cereal_list' %}">Back to home</a>
-{% endblock body %}
+            <div class="row 150%">
+                <div class="12u 12u(narrower) important(narrower)">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+
+                        {{ form.as_p }}
+
+                        <input type="submit" value="Login!">  
+                    </form>
+                    </br>
+                    Not yet signed up? <a href="/signup/">Sign up here!</a>
+                    <br>
+                    <a href="{% url 'cereal_list' %}">Back to home</a>
+                </div>
+            </div>
+        </section>
+{% endblock %}

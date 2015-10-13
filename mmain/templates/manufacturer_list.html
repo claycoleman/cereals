@@ -1,10 +1,77 @@
-<head>
-    <title>Manufacturers List</title>
-</head>
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}
+    Manufacturers List
+{% endblock title %}
 
-<h1>Manufacturers List</h1>
+{% block body-class %}left-sidebar{% endblock body-class %}
 
-<h2><a href="{% url "cereal_list" %}">To cereal list</a></h2>
+
+{% block body-main %}
+    <article id="main">
+        <header class="special container">
+            <span class="icon fa-laptop" id="search"></span>
+            <h2>Behold the <strong>Manufacturers</strong></h2>
+            <p>Here are the manufacturers of the cereals you love. Thank them later.</p>
+        </header>
+
+        
+
+    <!-- One -->
+        <section class="wrapper style4 container" >
+
+            <div class="row 150%">
+                <div class="2u 12u(narrower) important(narrower)">
+                    <div class="sidebar" >
+                        <section>
+                            <header>
+                                    <p> {% if request.user.is_authenticated %}{% else %}Please <a href="/login/" style="color: teal; font-weight: bold;">log in</a> to edit the manufacturer files!{% endif %}</p>
+                                </header>
+
+                                
+                                <form action="/manufacturer_list/#search" method="GET">
+                                        {{ form.as_p }}
+                                        <input type="submit" value="Search!" class="button small" style="min-width: 60px; min-height: 25px; padding-left: 15px !important; padding-right: 15px">  
+                                </form>
+                                <br>
+                                {% if request.user.is_authenticated %}
+                                    <a href="/create_manufacturer/">Create a new manufacturer!</a>
+                                {% endif %}
+                                {% for manufacturer in manufacturers %}
+                                    <br>
+                                    <br>
+                                    <br>
+                                    
+                                {% endfor %}
+                                
+                        </section>
+                    </div>
+                </div>
+                {% for manufacturer in manufacturers %}
+                    <div class="5u 12u(narrower)">
+                        <div class="content">
+                            <section>
+                                <header>
+                                    <h3><strong>{{manufacturer}}</strong></h3>
+                                </header>
+                                <p>That's basically all the information we have for you. {% if manufacturer.cereal_set.first != None %}Here's one of the cereals {{manufacturer}} makes: {{manufacturer.cereal_set.first}}{% endif %}</p>
+                                <footer>
+                                    <ul class="buttons">
+                                        <li><a href="{% url 'manufacturer_detail' manufacturer.pk %}" class="button small">Learn More</a></li>
+                                    </ul>
+                                </footer>
+                            </section>
+                        </div>
+                    </div>
+                 {% endfor %}
+            </div>
+        </section>
+
+    </article>
+{% endblock body-main %}
+
+
+
 
 {% if request.user.is_authenticated %}
     <h2><a href="{% url 'create_manufacturer' %}">Create new manufacturer!</a></h2>

@@ -1,17 +1,30 @@
 {% extends "base.html" %}
 
-{% block body %}
-    <form action="/signup/" method="POST">
-        {% csrf_token %}
+{% block title %}
+    Sign up
+{% endblock title %}
 
-        {{ form.as_p }}
+{% block body-main %}
+        <header class="special container">
+            <span class="icon fa-inbox"></span>
+            <h2>Please <strong>Sign Up</strong></h2>
+            <p>...if you know how, anyways...</p>
+        </header>
+    <section class="wrapper style4 container">
 
-        <input type="submit" value="Sign Up!">  
-    </form>
-    <br>
-    <a href="/login/">Back to login page</a>
-    </br>
+            <div class="row 150%">
+                <div class="12u 12u(narrower) important(narrower)">
+                    <form action="/signup/" method="POST">
+                        {% csrf_token %}
 
-    {{ valid }}
+                        {{ form.as_p }}
 
+                        <input type="submit" value="Sign Up!">  
+                    </form>
+                    <br>
+                    <a href="/login/">Back to login page</a>
+                    </br>
+                </div>
+            </div>
+        </section>
 {% endblock %}

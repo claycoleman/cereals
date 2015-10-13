@@ -1,22 +1,25 @@
 from django.shortcuts import render, render_to_response, redirect
+from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from mmain.models import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from mmain.forms import UserSignUp, UserLogin, Search
+from mmain.forms import UserSignUp, UserLogin, Search, CreateCerealForm, UpdateCerealForm, CreateManufacturerForm
 from django import forms
 
 
 def cereal_list(request):
     context = {}
     context['request'] = request
+
+    request.META['HTTP_REFERER'] = '{% url "cereal_list" %}'
     context['cereals'] = Cereal.objects.all().order_by('name')
     print request.user
     form = Search(request.GET)
     if form.is_valid():
         print form.cleaned_data
         search = form.cleaned_data['search']
-        context['cereals'] = Cereal.objects.filter(name__istartswith=search).order_by('name')
+        context['cereals'] = Cereal.objects.filter(name__icontains=search).order_by('name')
         if search is None:
             context['cereals'] = Cereal.objects.all().order_by('name')
     context['length'] = len(context['cereals'])
@@ -28,6 +31,7 @@ def cereal_list(request):
 def cereal_detail(request, pk):
     context = {}
     context['cereal'] = Cereal.objects.get(pk=pk)
+    context['number_of_cereals'] = len(context['cereal'].manufacturer.cereal_set.all())
     context['auth'] = request.user.is_authenticated()
 
     return render_to_response('cereal_detail.html', context, context_instance=RequestContext(request))
@@ -36,6 +40,7 @@ def cereal_detail(request, pk):
 def manufacturer_list(request):
     context = {}
     context['request'] = request
+    request.META['HTTP_REFERER'] = '{% url "manufacturer_list" %}'
     form = Search(request.GET)
     context['form'] = form
     context['results'] = None
@@ -46,12 +51,16 @@ def manufacturer_list(request):
         if len(search) is 0:
             context['manufacturers'] = Manufacturer.objects.all().order_by('name')
             context['results'] = ""
+            # redirect('manufacturer_list', kwargs={'anchor': '#search'})
         else:
-            context['manufacturers'] = Manufacturer.objects.filter(name__istartswith=search).order_by('name')
+            context['manufacturers'] = Manufacturer.objects.filter(name__icontains=search).order_by('name')
             if len(context['manufacturers']) is 0:
                 context['results'] = "Sorry, no results found!"
             else:
                 context['results'] = "Search results: "
+            # redirect('manufacturer_list', kwargs={'anchor': '#search'})
+
+
         
             
 
@@ -61,47 +70,39 @@ def manufacturer_list(request):
 def manufacturer_detail(request, pk):
     context = {}
     context['manufacturer'] = Manufacturer.objects.get(pk=pk)
+    context['number_of_cereals'] = len(context['manufacturer'].cereal_set.all())
     context['request'] = request
 
     return render_to_response('manufacturer_detail.html', context, context_instance=RequestContext(request))
 
 
-def create_cereal(request, pk=None):
+def create_cereal(request):
     context = {}
-    context['cereal'] = None
-    if pk != None: 
-        context['cereal'] = Cereal.objects.get(pk=pk)
+    
     context['request'] = request
-    context['manufacturers'] = Manufacturer.objects.all()
-
-    if (request.method == 'POST'):
-        print 'POST!'
-        new_cereal, created = Cereal.objects.get_or_create(name=request.POST.get('name', None))
-        new_cereal.cereal_type = request.POST.get('cereal_type', None)
-        new_cereal.calories = request.POST.get('calories', None)
-        new_cereal.protein = request.POST.get('protein', None)
-        new_cereal.fat = request.POST.get('fat', None)
-        new_cereal.sodium = request.POST.get('sodium', None)
-        new_cereal.dietary_fiber = request.POST.get('dietary_fiber', None)
-        new_cereal.carbs = request.POST.get('carbs', None)
-        new_cereal.sugars = request.POST.get('sugars', None)
-        new_cereal.display_shelf = request.POST.get('display_shelf', None)
-        new_cereal.potassium = request.POST.get('potassium', None)
-        new_cereal.vitamins_and_minerals = request.POST.get('vitamins_and_minerals', None)
-        new_cereal.serving_size_weight = request.POST.get('serving_size_weight', None)
-        new_cereal.cups_per_serving = request.POST.get('cups_per_serving', None)
-
-        manu = Manufacturer.objects.get(pk=request.POST.get('manufacturer', None))
-        new_cereal.manufacturer = manu
-
-        new_cereal.save()
-        manu.save()
-        return redirect('cereal_detail', pk=new_cereal.pk) 
-
-    elif (request.method == 'GET'):
-        print "Skipped bc GET"
-
+    form = CreateCerealForm(request.POST or None)
+    context['form'] = form
+    if (request.method == "POST"):
+        if form.is_valid():
+            new_cereal = form.save()
+            return redirect('cereal_detail', pk=new_cereal.pk)
     return render_to_response('create_cereal.html', context, context_instance=RequestContext(request))
+
+
+def update_cereal(request, pk):
+    context = {}
+    context['request'] = request
+    cereal = Cereal.objects.get(pk=pk)
+
+    form = UpdateCerealForm(request.POST or None, instance=cereal)
+    context['cereal'] = cereal
+    context['form'] = form
+
+    if form.is_valid():
+        form.save()
+        return redirect('cereal_detail', cereal.pk)
+
+    return render_to_response('update_cereal.html', context, context_instance=RequestContext(request))
 
 
 def cereal_delete(request, pk=None):
@@ -170,7 +171,11 @@ def login_user(request):
                 if user.is_active:
                     login(request, user)
                     print("User is valid, active and authenticated")
-                    return redirect('cereal_list')
+                    next = request.GET.get('next')
+                    if next is not None:
+                        return redirect(next)
+                    else:
+                        return redirect('cereal_list')
                 else:
                     print("The password is valid, but the account has been disabled!")
             else:
@@ -185,35 +190,33 @@ def login_user(request):
 def logout_user(request):
     logout(request)
 
-    return redirect("cereal_list")
+    return redirect(request.GET.get('next'))
 
 
-def create_manufacturer(request, pk=None):
+def create_manufacturer(request):
     context = {}
-    context['manufacturer'] = None
-    cereals  = Cereal.objects.all()
-    if pk != None: 
-        manufacturer = Manufacturer.objects.get(pk=pk)
-        for cereal in manufacturer.cereal_set.all():
-            cereals = cereals.exclude(pk=cereal.pk)
-
-        context['manufacturer'] = manufacturer
     context['request'] = request
-    context['cereals'] = cereals
 
+    form = CreateManufacturerForm(request.POST or None)
+    context['form'] = form
     if (request.method == 'POST'):
         print 'POST!'
-        new_manufacturer, created = Manufacturer.objects.get_or_create(name=request.POST.get('name', None))
-        cereal_pk_list = request.POST.getlist("cereals")
-        print cereal_pk_list
-        for pk in cereal_pk_list:
-            cereal = Cereal.objects.get(pk=pk)
-            cereal.manufacturer = new_manufacturer
-            cereal.save()
-        new_manufacturer.save()
-        return redirect('/manufacturer_detail/'+str(new_manufacturer.pk) )
-
+        if form.is_valid():
+            new_manufacturer = form.save()
+            return redirect('manufacturer_detail', pk=new_manufacturer.pk)
+        
     return render_to_response('create_manufacturer.html', context, context_instance=RequestContext(request))
+
+
+    
+    context['request'] = request
+    form = CreateCerealForm(request.POST or None)
+    context['form'] = form
+    if (request.method == "POST"):
+        if form.is_valid():
+            new_cereal = form.save()
+            return redirect('cereal_detail', pk=new_cereal.pk)
+    return render_to_response('create_cereal.html', context, context_instance=RequestContext(request))
 
 
 def manufacturer_delete(request, pk):
@@ -231,6 +234,7 @@ def manufacturer_delete(request, pk):
         return redirect('manufacturer_list')
 
     return render_to_response('manufacturer_delete.html', context, context_instance=RequestContext(request))
+
 
 def template_view(request):
 

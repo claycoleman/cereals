@@ -1,9 +1,36 @@
-<head>
-    <title>Create Manufacturer</title>
-</head>
+{% extends "base.html" %}
+{% load staticfiles crispy_forms_tags %}
+{% block title %}
+    Create a Manufacturer
+{% endblock title %}
+
+
+{% block body-class %}no-sidebar{% endblock body-class %}
+
+
+{% block body-main %}
+    <article id="main">
+        <header class="special container">
+                <h2>Create a <strong>new manufacturer</strong>!</h2>
+            <p>Enter the details below.</p>
+        </header>
+        <section class="wrapper style4 container" >
+
+            <div class="row 150%">
+                <div class="12u important(narrower)">
+                    <section>
+                            {% crispy form %} * = Required field
+                        <br>
+                            <a href="{% url 'manufacturer_list' %}">Back to list</a>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </article>
+{% endblock body-main %}
 
 {% if manufacturer == None %}
-    <h1>Create a new manufacturer!</h1>
+    <h1></h1>
 {% else %}
     <h1>Update {{manufacturer}}!</h1>
 {% endif %}

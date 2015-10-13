@@ -1,21 +1,78 @@
-<head>
-    <title>{{manufacturer}} Details</title>
-</head>
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}
+    {{manufacturer}} Details
+{% endblock title %}
+{% block body-class %}left-sidebar{% endblock body-class %}
 
-<h1>{{manufacturer}} Details</h1>
+{% block body-main %}
+    <article id="main">
+        <header class="special container">
+            <span class="icon fa-laptop" id='search'></span>
+            <h2>Take a look at <strong>{{manufacturer}}</strong></h2>
+        </header>
 
-{% for cereal in manufacturer.cereal_set.all %}
-    <a href="{% url 'cereal_detail' cereal.pk %}">{{cereal}}</a><br>
-    
-{% endfor %}
-<br>
 
 
-{% if request.user.is_authenticated %}
-    <p><a href="{% url 'update_manufacturer' manufacturer.pk %}">Update this manufacturer</a></p>
-    <br>
-    <p><a href="{% url 'manufacturer_delete' manufacturer.pk %}">Delete this manufacturer!</a></p>
-{% endif %}
+        <!-- One -->
+
+        <section class="wrapper style4 container">
+
+            <div class="row 150%">
+                <div class="4u 12u(narrower)">
+
+                    <!-- Sidebar -->
+                        <div class="sidebar">
+                            <section>
+                                <header>
+                                    <h3>More info about <strong>{{manufacturer}}</strong></h3>
+                                </header>
+                                <p> -- Makes a total of {{number_of_cereals}} cereals</p>
+                            </section>
+                            <hr>
+                            {% if request.user.is_authenticated %}
+                                <p><a href="{% url 'manufacturer_delete' manufacturer.pk %}">Delete this manufacturer!</a></p>
+                            {% endif %}
+                        </div>
+
+                </div>
+                <div class="8u 12u(narrower) important(narrower)">
+
+                    <!-- Content -->
+                        <div class="content">
+                            <section>
+                                {% comment %}
+                                    <a href="#" class="image featured"><img src="images/pic02.jpg" alt="" /></a>
+                                {% endcomment %}
+                                
+                                
+                                <header>
+                                    <h2><strong>{{manufacturer}}</strong></h2>
+                                </header>
+                                <p>
+                                {% for cereal in manufacturer.cereal_set.all %}
+                                    <a href="{% url 'cereal_detail' cereal.pk %}" class="button small">{{cereal}}</a>
+                                {% endfor %}    
+                                </p>
+                                <br>
+                                <a href="{% url 'manufacturer_list' %}" class="button small">Back to list!</a>
+
+                            </section>
+                        </div>
+
+                </div>
+            </div>
+        </section>
+
+    </article>
+{% endblock body-main %}
+
+
+
+
+
+
+
 
 <br>
 <p><a href="{% url 'manufacturer_list' %}">Back to list</a></p>

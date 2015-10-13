@@ -1,17 +1,36 @@
-<head>
-    <title>Delete {{cereal}}</title>
-</head>
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}
+    Delete {{cereal}}
+{% endblock title %}
 
-<h1>Are you sure you want to delete?!</h1>
+{% block body-class %}left-sidebar{% endblock body-class %}
 
-<h2>It might not be the tastiest, but {{cereal}} is still okay man...</h2>
 
-<h3> if you're sure you want to delete, hit 'confirm' below. Or, back out to the detail view!</h3> <br>
-    <form action="/cereal_delete/{{cereal.pk}}/" method="POST">
-        {% csrf_token %}
-        <input type="submit" value="Confirm">
-    </form>
+{% block body-main %}
+    <article id="main">
+        <header class="special container">
+            <span class="icon fa-laptop" id="search"></span>
+            <h2>Are you <strong>sure</strong> you want to delete?!</h2>
+            <p>It might not be the tastiest, but {{cereal}} is still okay man...</p>
+            <p>if you're sure you want to delete, hit 'confirm' below. Or, back out to the detail view!</p>
+        </header>
+
+    <section class="wrapper style4 container">
+
+            <div class="row 150%">
+                <div class="12u">
+                    <form action="/cereal_delete/{{cereal.pk}}/" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value="Confirm" class="small button">
+                    </form>
+
+                    <br>
+                        <a href="{% url 'cereal_detail' cereal.pk %}" class="button small">Back to {{cereal}} details</a>
+                </div>
+            </div>
+    </section>
+
+{% endblock %}
 
     
-
-<a href="{% url 'cereal_detail' cereal.pk %}">Back to {{cereal}} details</a>

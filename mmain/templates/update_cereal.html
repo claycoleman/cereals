@@ -2,7 +2,7 @@
 {% load staticfiles crispy_forms_tags %}
 
 {% block title %}
-    Create a new Cereal
+    Update {{Cereal}}
 {% endblock title %}
 
 {% block body-class %}no-sidebar{% endblock body-class %}
@@ -11,7 +11,8 @@
 {% block body-main %}
     <article id="main">
         <header class="special container">
-                <h2>Create a <strong>new cereal</strong>!</h2>
+
+            <h2>Update <strong>{{cereal}}</strong>!</h2>
             <p>Enter the details below.</p>
         </header>
         <section class="wrapper style4 container" >
@@ -21,7 +22,10 @@
                     <section>
                             {% crispy form %} * = Required field
                         <br>
-                            <a href="{% url 'cereal_list' %}">Back to list</a>
+
+                        <a href="{% url 'cereal_detail' cereal.pk %}">Back to {{cereal}} details</a>
+                            
+                            
                     </section>
                 </div>
             </div>
