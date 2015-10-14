@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'^nimda/$', include(admin.site.urls)),
+    url(r'^admin/$', include(admin.site.urls)),
     url(r'^home/$', "mmain.views.cereal_list", name='cereal_list'),
     url(r'^$', "mmain.views.cereal_list", name='home'),
     url(r'^cereal_detail/(?P<pk>\d+)/$', "mmain.views.cereal_detail", name="cereal_detail"), 
