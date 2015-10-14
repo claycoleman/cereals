@@ -34,7 +34,7 @@
                                         </header>
 
                                         
-                                        <form action="/cereal_list/#search" method="GET">
+                                        <form action="{% url 'cereal_list' %}#search" method="GET">
                                                 {{ form.as_p }}
                                                 <input type="submit" value="Search!" class="button small">  
                                         </form>
