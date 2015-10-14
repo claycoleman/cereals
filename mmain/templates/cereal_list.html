@@ -20,7 +20,7 @@
     <!-- One -->
         <section class="wrapper style4 container">
 
-            <div class="row 150%">
+            <div class="row">
                 
                 <div class="3u 12u(narrower) important(narrower)" style=" text-align: center;">
                         
@@ -46,12 +46,12 @@
                 </div>
                 {% for cereal in cereals %}
                     <div class="4u 12u(narrower)">
-                        <div class="content">
+                        <div class="content" style="min-height: 225px">
                             <section>
                                 <header>
-                                    <h3><strong>{{cereal}}</strong></h3>
+                                    <h4><strong>{{cereal}}</strong></h4>
                                 </header>
-                                <p>Created by <a href="{% url 'manufacturer_detail' cereal.manufacturer.pk %}">{{cereal.manufacturer}}</a>. And only contains {{cereal.calories}} calories.</p>
+                                <p><small>Created by <a href="{% url 'manufacturer_detail' cereal.manufacturer.pk %}">{{cereal.manufacturer}}</a>. Just for {{cereal.calories}} calories.</small></p>
                                 <footer>
                                     <ul class="buttons">
                                         <li><a href="{% url 'cereal_detail' cereal.pk %}" class="button small">Learn More</a></li>

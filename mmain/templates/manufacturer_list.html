@@ -20,8 +20,8 @@
     <!-- One -->
         <section class="wrapper style4 container" >
 
-            <div class="row 150%">
-                <div class="2u 12u(narrower) important(narrower)">
+            <div class="row">
+                <div class="3u 12u(narrower) important(narrower)">
                     <div class="sidebar" style=" text-align: center;">
                         <section>
                             <header>
@@ -41,13 +41,13 @@
                     </div>
                 </div>
                 {% for manufacturer in manufacturers %}
-                    <div class="5u 12u(narrower)">
-                        <div class="content">
+                    <div class="4u 12u(narrower)">
+                        <div class="content" style="min-height: 250px">
                             <section>
                                 <header>
-                                    <h3><strong>{{manufacturer}}</strong></h3>
+                                    <h4><strong>{{manufacturer}}</strong></h4>
                                 </header>
-                                <p>That's basically all the information we have for you. {% if manufacturer.cereal_set.first != None %}Here's one of the cereals {{manufacturer}} makes: {{manufacturer.cereal_set.first}}{% endif %}</p>
+                                <p>{% if manufacturer.cereal_set.first != None %}Here's one of the cereals {{manufacturer}} makes: {{manufacturer.cereal_set.first}}{% endif %}</p>
                                 <footer>
                                     <ul class="buttons">
                                         <li><a href="{% url 'manufacturer_detail' manufacturer.pk %}" class="button small">Learn More</a></li>
