@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Thanks!
+{% endblock title %}
+
+{% block body-main %}
+    <article id="main">
+
+                    <header class="special container">
+                        <span class="icon fa-check"></span>
+                        <h2>Thanks for you feedback!</h2>
+                        <p>coleclayman will definitely take a look at it. If he sees it.</p>
+                        <p><a href="{% url 'home' %}">Click here to go back home!</a></p>
+                    </header>
+                </article>
+{% endblock body-main %}

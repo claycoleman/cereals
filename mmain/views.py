@@ -1,4 +1,5 @@
 from django.shortcuts import render, render_to_response, redirect
+from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from mmain.models import *
@@ -6,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from mmain.forms import UserSignUp, UserLogin, Search, CreateCerealForm, UpdateCerealForm, CreateManufacturerForm
 from django import forms
+from django.core.mail import send_mail
 
 
 def cereal_list(request):
@@ -234,6 +236,24 @@ def manufacturer_delete(request, pk):
         return redirect('manufacturer_list')
 
     return render_to_response('manufacturer_delete.html', context, context_instance=RequestContext(request))
+
+
+def contact(request):
+    context = {}
+
+    if (request.method == "POST"):
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+
+        send_mail("Cereals: %s" % name, message, email, [settings.EMAIL_HOST_USER], fail_silently=False)
+        return redirect('feedback')
+
+    return render_to_response('contact.html', context, context_instance=RequestContext(request))
+
+def feedback(request):
+    return render(request, 'feedback.html')
 
 
 def template_view(request):

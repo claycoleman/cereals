@@ -22,12 +22,10 @@
 
             <div class="row 150%">
                 
-                <div class="3u 12u(narrower) important(narrower)">
-                    <div class="row">
-                        <div class="8u 10u(narrower)">
+                <div class="3u 12u(narrower) important(narrower)" style=" text-align: center;">
                         
                             <!-- Content -->
-                                <div class="sidebar"  style=" text-align: center;">
+                                <div class="sidebar"  >
                                     <section>
                                         <header>
                                             <p> {% if request.user.is_authenticated %}{% else %}Please <a href="/login/" style="color: teal; font-weight: bold;">log in</a> to edit the cereal files!{% endif %}</p>
@@ -43,8 +41,6 @@
                                             <a href="/create_cereal/">Create a new cereal!</a>
                                         {% endif %}
                                     </section>
-                                </div>
-                        </div>
                     </div>
 
                 </div>

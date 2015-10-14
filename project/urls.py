@@ -35,5 +35,7 @@ urlpatterns = [
     url(r'^create_manufacturer/(?P<pk>\d+)/$', 'mmain.views.create_manufacturer', name='update_manufacturer'),
     url(r'^manufacturer_delete/(?P<pk>\d+)/$', 'mmain.views.manufacturer_delete', name='manufacturer_delete'),
     url(r'^template_view/', 'mmain.views.template_view', name='template_view_name'),
+    url(r'^contact/$', 'mmain.views.contact', name='contact'),
+    url(r'^feedback/$', 'mmain.views.feedback', name='feedback')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
