@@ -192,7 +192,11 @@ def login_user(request):
 def logout_user(request):
     logout(request)
 
-    return redirect(request.GET.get('next'))
+    next = request.GET.get('next')
+    if next is not None:
+        return redirect(next)
+    else:
+        return redirect('home')
 
 
 def create_manufacturer(request):
@@ -254,6 +258,10 @@ def contact(request):
 
 def feedback(request):
     return render(request, 'feedback.html')
+
+
+def home(request):
+    return render(request, 'home.html')
 
 
 def template_view(request):

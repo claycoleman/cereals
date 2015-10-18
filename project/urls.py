@@ -20,8 +20,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^nimda/', include(admin.site.urls)),
-    url(r'^home/$', "mmain.views.cereal_list", name='cereal_list'),
-    url(r'^$', "mmain.views.cereal_list", name='home'),
+    url(r'^cereal_list/$', "mmain.views.cereal_list", name='cereal_list'),
+    url(r'^$', "mmain.views.home", name='home'),
     url(r'^cereal_detail/(?P<pk>\d+)/$', "mmain.views.cereal_detail", name="cereal_detail"), 
     url(r'^manufacturer_list/$', "mmain.views.manufacturer_list", name="manufacturer_list"),
     url(r'^manufacturer_detail/(?P<pk>\d+)/$', 'mmain.views.manufacturer_detail', name='manufacturer_detail'),
@@ -36,6 +36,6 @@ urlpatterns = [
     url(r'^manufacturer_delete/(?P<pk>\d+)/$', 'mmain.views.manufacturer_delete', name='manufacturer_delete'),
     url(r'^template_view/', 'mmain.views.template_view', name='template_view_name'),
     url(r'^contact/$', 'mmain.views.contact', name='contact'),
-    url(r'^feedback/$', 'mmain.views.feedback', name='feedback')
+    url(r'^feedback/$', 'mmain.views.feedback', name='feedback'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

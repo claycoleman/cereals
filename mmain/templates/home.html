@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Home - Cereals{% endblock title %}
+
+{% block body-main %}
+    <!-- Banner -->
+        <section id="banner">
+
+            <!--
+                ".inner" is set up as an inline-block so it automatically expands
+                in both directions to fit whatever's inside it. This means it won't
+                automatically wrap lines, so be sure to use line breaks where
+                appropriate (<br />).
+            -->
+            <div class="inner">
+
+                <header>
+                    <h2>CEREALS</h2>
+                </header>
+                <p>This is <strong>Cereals</strong>, a site
+                <br />
+                devoted to our
+                <br />
+                favorite breakfast.</p>
+                <footer>
+                    <ul class="buttons vertical">
+                        <li><a href="#main" class="button fit scrolly">Tell Me More</a></li>
+                    </ul>
+                </footer>
+
+            </div>
+
+        </section>
+
+<!-- Main -->
+        <article id="main">
+
+            <header class="special container">
+                <span class="icon fa-bar-chart-o"></span>
+                <h2>So many things in life change - but something constant can be our choice in breakfast.
+                <br />
+                I made this so you can learn more about what you love: <strong>cereal</strong>.</h2>
+                <p>As you spend time perusing the site, search for your favorites, and look for new cereals made by 
+                <br />
+                the manufacturers of your top choices! You could find some hidden gems :)
+                <br />
+                See anything I need to add here? Any cereals I missed? Hit me up! I also love talking baseball. Enjoy!</p>
+            </header>
+
+        </article>
+
+
+{% endblock %}
